@@ -7,7 +7,7 @@ const Dashboard = ({ onLogout }) => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedSchool, setSelectedSchool] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedQuantity, setSelectedQuantity] = useState(null);
+  // const [selectedQuantity, setSelectedQuantity] = useState(null);
 
   // Mock data - In a real application, this would come from an API
   const projects = [
@@ -67,7 +67,7 @@ const Dashboard = ({ onLogout }) => {
     setSelectedDistrict(null);
     setSelectedSchool(null);
     setSelectedCategory(null);
-    setSelectedQuantity(null);
+    // setSelectedQuantity(null);
   };
 
   const handleStateSelect = (state) => {
@@ -75,7 +75,7 @@ const Dashboard = ({ onLogout }) => {
     setSelectedDistrict(null);
     setSelectedSchool(null);
     setSelectedCategory(null);
-    setSelectedQuantity(null);
+    // setSelectedQuantity(null);
   };
 
   // Render select dropdown with label
@@ -193,14 +193,92 @@ const Dashboard = ({ onLogout }) => {
 
             {selectedCategory && (
               <div className="mt-6">
-                <h3 className="text-lg font-outfit font-medium mb-4">
-                  Status Overview
-                </h3>
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <p className="font-redhat">
-                    {/* Here you would add the pie chart and quantity data */}
-                    Quantity and status visualization will be displayed here
-                  </p>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-outfit font-medium">
+                    Status Overview
+                  </h3>
+                  <button
+                    onClick={() => console.log("Export clicked")}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-redhat text-sm flex items-center"
+                  >
+                    <span className="mr-2">📊</span>
+                    Export to CSV
+                  </button>
+                </div>
+
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  {/* Table Header */}
+                  <div className="grid grid-cols-5 gap-4 p-4 bg-gray-50 border-b border-gray-200 font-outfit font-medium text-sm text-gray-700">
+                    <div>Month</div>
+                    <div>Quantity Allocated</div>
+                    <div>Quantity Used</div>
+                    <div>Status</div>
+                    <div>Efficiency Rate</div>
+                  </div>
+
+                  {/* Table Body - Using dummy data */}
+                  {[
+                    {
+                      month: "January",
+                      allocated: 1000,
+                      used: 850,
+                      status: "Active",
+                      efficiency: "85%",
+                    },
+                    {
+                      month: "February",
+                      allocated: 1200,
+                      used: 1100,
+                      status: "Completed",
+                      efficiency: "92%",
+                    },
+                    {
+                      month: "March",
+                      allocated: 800,
+                      used: 600,
+                      status: "In Progress",
+                      efficiency: "75%",
+                    },
+                    {
+                      month: "April",
+                      allocated: 1500,
+                      used: 1200,
+                      status: "Active",
+                      efficiency: "80%",
+                    },
+                  ].map((row, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-5 gap-4 p-4 border-b border-gray-200 font-redhat text-sm hover:bg-gray-50 transition-colors"
+                    >
+                      <div>{row.month}</div>
+                      <div>{row.allocated.toLocaleString()}</div>
+                      <div>{row.used.toLocaleString()}</div>
+                      <div>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            row.status === "Completed"
+                              ? "bg-green-100 text-green-800"
+                              : row.status === "Active"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {row.status}
+                        </span>
+                      </div>
+                      <div className="font-medium">{row.efficiency}</div>
+                    </div>
+                  ))}
+
+                  {/* Table Footer with Summary */}
+                  <div className="grid grid-cols-5 gap-4 p-4 bg-gray-50 font-outfit font-medium text-sm">
+                    <div>Total</div>
+                    <div>4,500</div>
+                    <div>3,750</div>
+                    <div></div>
+                    <div>83% avg.</div>
+                  </div>
                 </div>
               </div>
             )}

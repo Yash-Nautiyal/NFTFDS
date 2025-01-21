@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+
 import {
   EyeSlashIcon,
   EyeIcon,
@@ -12,6 +14,7 @@ const LoginPage = () => {
     rememberMe: false,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value, checked } = e.target;
@@ -19,6 +22,19 @@ const LoginPage = () => {
       ...prev,
       [name]: name === "rememberMe" ? checked : value,
     }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Simulate authentication (replace with real authentication logic)
+    if (
+      formData.email === "test@example.com" &&
+      formData.password === "password"
+    ) {
+      navigate("/dashboard"); // Redirect to Dashboard on successful login
+    } else {
+      alert("Invalid credentials");
+    }
   };
 
   return (
@@ -75,7 +91,7 @@ const LoginPage = () => {
         </div>
 
         {/* Login Form */}
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="transform hover:translate-z-2 transition-transform">
             <label
               htmlFor="email"
