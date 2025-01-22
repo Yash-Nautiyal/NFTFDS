@@ -1,13 +1,17 @@
+// Dashboard.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Dashboard = ({ onLogout }) => {
+const Dashboard = () => {
   // State for each level of selection
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedSchool, setSelectedSchool] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [selectedQuantity, setSelectedQuantity] = useState(null);
+  
+  // ----- add the navigate hook -----
+  const navigate = useNavigate();
 
   // Mock data - In a real application, this would come from an API
   const projects = [
@@ -25,21 +29,13 @@ const Dashboard = ({ onLogout }) => {
       id: 2,
       name: "Residential Training Project for EMRS Teachers",
       icon: "👨‍🏫",
-      categories: [
-        "Training Modules",
-        "Teaching Resources",
-        "Assessment Tools",
-      ],
+      categories: ["Training Modules", "Teaching Resources", "Assessment Tools"],
     },
     {
       id: 3,
       name: "Entrepreneurship Bootcamp for High School Students",
       icon: "💼",
-      categories: [
-        "Business Planning",
-        "Market Research",
-        "Financial Literacy",
-      ],
+      categories: ["Business Planning", "Market Research", "Financial Literacy"],
     },
     {
       id: 4,
@@ -55,19 +51,16 @@ const Dashboard = ({ onLogout }) => {
     },
   ];
 
-  // Mock data for selections
   const states = ["Maharashtra", "Gujarat", "Karnataka"];
   const districts = ["District 1", "District 2", "District 3"];
   const schools = ["School 1", "School 2", "School 3"];
 
-  // Handle selection changes with cascading resets
   const handleProjectSelect = (project) => {
     setSelectedProject(project);
     setSelectedState(null);
     setSelectedDistrict(null);
     setSelectedSchool(null);
     setSelectedCategory(null);
-    // setSelectedQuantity(null);
   };
 
   const handleStateSelect = (state) => {
@@ -75,7 +68,6 @@ const Dashboard = ({ onLogout }) => {
     setSelectedDistrict(null);
     setSelectedSchool(null);
     setSelectedCategory(null);
-    // setSelectedQuantity(null);
   };
 
   // Render select dropdown with label
@@ -101,6 +93,12 @@ const Dashboard = ({ onLogout }) => {
       </select>
     </div>
   );
+
+  // ----- handleLogout function that redirects to /login -----
+  const handleLogout = () => {
+    // Perform any cleanup or state resets here if needed
+    navigate("/login"); // redirects user to login page
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -128,8 +126,9 @@ const Dashboard = ({ onLogout }) => {
         </nav>
 
         <div className="absolute bottom-0 w-full p-4 border-t border-gray-200">
+          {/* ----- Updated Logout button ----- */}
           <button
-            onClick={onLogout}
+            onClick={handleLogout}
             className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center"
           >
             <span className="mr-2">🚪</span>
@@ -155,7 +154,6 @@ const Dashboard = ({ onLogout }) => {
 
         {selectedProject && (
           <div className="bg-white rounded-xl shadow-sm p-6">
-            {/* Hierarchical selection process */}
             {renderSelect({
               label: "Select State",
               value: selectedState,
@@ -193,10 +191,35 @@ const Dashboard = ({ onLogout }) => {
 
             {selectedCategory && (
               <div className="mt-6">
+                <h3 className="text-lg font-outfit font-medium mb-2">
+                  Status Overview
+                </h3>
+
+                {/* Date filters + Export button */}
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-outfit font-medium">
-                    Status Overview
-                  </h3>
+                  <div className="flex items-center space-x-4">
+                    {/* Start Date */}
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 font-outfit block mb-1">
+                        Start Date
+                      </label>
+                      <input
+                        type="date"
+                        className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    {/* End Date */}
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 font-outfit block mb-1">
+                        End Date
+                      </label>
+                      <input
+                        type="date"
+                        className="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
                   <button
                     onClick={() => console.log("Export clicked")}
                     className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-redhat text-sm flex items-center"

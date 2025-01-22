@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-
+import { useNavigate } from "react-router-dom";
 import {
   EyeSlashIcon,
   EyeIcon,
@@ -23,6 +22,7 @@ const LoginPage = () => {
       [name]: name === "rememberMe" ? checked : value,
     }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -142,7 +142,10 @@ const LoginPage = () => {
         {/* Sign Up Link */}
         <p className="mt-8 text-center text-sm text-gray-600">
           Don't have an account?{" "}
-          <button className="text-purple-600 hover:text-purple-500 font-medium">
+          <button 
+            onClick={() => navigate("/register")} 
+            className="text-purple-600 hover:text-purple-500 font-medium"
+          >
             Create account
           </button>
         </p>
