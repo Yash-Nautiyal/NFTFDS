@@ -1,0 +1,27 @@
+/* themes.css */
+@tailwind base;
+
+@layer base {
+  /* Light mode (default) */
+  :root {
+    --color-bg-page: theme('colors.page.light');
+    --color-bg-sidebar: theme('colors.sidebar.light');
+    --color-bg-card: theme('colors.card.light');
+    --color-text-primary: theme('colors.gray.900');
+    --color-text-secondary: theme('colors.gray.600');
+  }
+
+  /* Dark mode */
+  .dark {
+    --color-bg-page: theme('colors.page.dark');
+    --color-bg-sidebar: theme('colors.sidebar.dark');
+    --color-bg-card: theme('colors.card.dark');
+    --color-text-primary: theme('colors.gray.100');
+    --color-text-secondary: theme('colors.gray.400');
+  }
+
+  /* Global transitions */
+  * {
+    @apply transition-colors duration-200;
+  }
+}
