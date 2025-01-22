@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider } from './ThemeContext'; // Add this import
+import { ThemeProvider } from './context/ThemeContext';
+import './style/theme.css';
 import LoginPage from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import Dashboard from './components/dashboard/dashboard';

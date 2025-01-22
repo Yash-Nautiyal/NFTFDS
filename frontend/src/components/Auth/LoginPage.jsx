@@ -26,33 +26,35 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // API Call to the backend login endpoint
     try {
-      const response = await fetch("http://localhost:8000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-  
+      const response = await fetch(
+        "https://de76-2405-204-3303-cef4-34da-1b17-cf09-4170.ngrok-free.app/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.detail);
         return;
       }
-  
+
       alert("Login successful!");
       navigate("/dashboard"); // Redirect to dashboard
     } catch (error) {
       alert("An error occurred while logging in. Please try again.");
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">

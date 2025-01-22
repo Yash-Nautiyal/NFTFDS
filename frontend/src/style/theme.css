@@ -1,27 +1,37 @@
-/* themes.css */
-@tailwind base;
-
-@layer base {
-  /* Light mode (default) */
-  :root {
-    --color-bg-page: theme('colors.page.light');
-    --color-bg-sidebar: theme('colors.sidebar.light');
-    --color-bg-card: theme('colors.card.light');
-    --color-text-primary: theme('colors.gray.900');
-    --color-text-secondary: theme('colors.gray.600');
-  }
-
-  /* Dark mode */
-  .dark {
-    --color-bg-page: theme('colors.page.dark');
-    --color-bg-sidebar: theme('colors.sidebar.dark');
-    --color-bg-card: theme('colors.card.dark');
-    --color-text-primary: theme('colors.gray.100');
-    --color-text-secondary: theme('colors.gray.400');
-  }
-
-  /* Global transitions */
-  * {
-    @apply transition-colors duration-200;
-  }
+:root {
+  /* Light theme variables */
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-border: #e5e7eb;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
 }
+
+:root[class~='dark'] {
+  /* Dark theme variables */
+  --color-primary: #a78bfa;
+  --color-primary-hover: #8b5cf6;
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-text: #f9fafb;
+  --color-text-secondary: #9ca3af;
+  --color-border: #374151;
+  --color-success: #34d399;
+  --color-error: #f87171;
+  --color-warning: #fbbf24;
+  --color-info: #60a5fa;
+}
+.theme-transition {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Utility classes for theme colors */
+.theme-bg-primary { background-color: var(--color-primary); }
+.theme-text-primary { color: var(--color-primary); }
+.theme-border-primary { border-color: var(--color-primary); }
