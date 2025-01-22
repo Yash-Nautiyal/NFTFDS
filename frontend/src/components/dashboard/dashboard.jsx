@@ -2,6 +2,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  PieChart,
+  Pie,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Label,
+  LabelList,
+} from "recharts";
+
 const Dashboard = () => {
   // State for each level of selection
   const [selectedProject, setSelectedProject] = useState(null);
@@ -15,11 +29,17 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
 
-
   // Dummy user profile
   const user = {
     name: "John Doe",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmnWamWQaGg46q1S3u0uMMgK3SZDBh1nBk-Q&s"
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmnWamWQaGg46q1S3u0uMMgK3SZDBh1nBk-Q&s",
+  };
+  const summaryStats = {
+    totalStates: 28,
+    totalDistricts: 156,
+    totalSchools: 892,
+    activeProjects: 5,
   };
 
   // Mock data - In a real application, this would come from an API
@@ -38,13 +58,21 @@ const Dashboard = () => {
       id: 2,
       name: "Residential Training Project for EMRS Teachers",
       icon: "👨‍🏫",
-      categories: ["Training Modules", "Teaching Resources", "Assessment Tools"],
+      categories: [
+        "Training Modules",
+        "Teaching Resources",
+        "Assessment Tools",
+      ],
     },
     {
       id: 3,
       name: "Entrepreneurship Bootcamp for High School Students",
       icon: "💼",
-      categories: ["Business Planning", "Market Research", "Financial Literacy"],
+      categories: [
+        "Business Planning",
+        "Market Research",
+        "Financial Literacy",
+      ],
     },
     {
       id: 4,
@@ -59,6 +87,21 @@ const Dashboard = () => {
       categories: ["Dispensers", "Disposal Units", "Hygiene Products"],
     },
   ];
+  const SummaryCard = ({ title, value, icon, color }) => (
+    <div className="bg-white rounded-xl shadow-sm p-6 flex items-center">
+      <div
+        className={`w-12 h-12 rounded-lg ${color} flex items-center justify-center mr-4`}
+      >
+        <span className="text-2xl">{icon}</span>
+      </div>
+      <div>
+        <h3 className="text-gray-600 font-redhat text-sm mb-1">{title}</h3>
+        <p className="text-2xl font-outfit font-semibold text-gray-900">
+          {value.toLocaleString()}
+        </p>
+      </div>
+    </div>
+  );
 
   const states = ["Maharashtra", "Gujarat", "Karnataka"];
   const districts = ["District 1", "District 2", "District 3"];
@@ -142,7 +185,9 @@ const Dashboard = () => {
             alt="User Profile"
             className="w-10 h-10 rounded-full object-cover"
           />
-          <span className="font-redhat text-gray-800 font-medium">{user.name}</span>
+          <span className="font-redhat text-gray-800 font-medium">
+            {user.name}
+          </span>
         </div>
 
         {/* Navigation with Projects */}
@@ -195,7 +240,7 @@ const Dashboard = () => {
       )}
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col ml-0 md:ml-64 transition-all duration-300">
+      <div className="flex-1 flex flex-col ml-0 mt-10 md:ml-10 mr-10 transition-all duration-300">
         {/* Mobile Header with Hamburger Menu */}
         <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-gray-200">
           <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -207,7 +252,12 @@ const Dashboard = () => {
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"></path>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
             </svg>
           </button>
           <h2 className="text-lg font-outfit font-semibold text-gray-900">
@@ -215,7 +265,7 @@ const Dashboard = () => {
           </h2>
         </div>
 
-        <div className="p-8 flex-1">
+        <div className="p-0 flex-1">
           <div className="mb-8 hidden md:block">
             <h2 className="text-2xl font-outfit font-semibold text-gray-900">
               {selectedProject
@@ -228,7 +278,214 @@ const Dashboard = () => {
                 : "Select a project to get started"}
             </p>
           </div>
+          {/* {SummaryCard} */}
+          {!selectedProject && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <SummaryCard
+                title="Total States"
+                value={summaryStats.totalStates}
+                icon="🏛️"
+                color="bg-blue-50"
+              />
+              <SummaryCard
+                title="Total Districts"
+                value={summaryStats.totalDistricts}
+                icon="📍"
+                color="bg-purple-50"
+              />
+              <SummaryCard
+                title="Total Schools"
+                value={summaryStats.totalSchools}
+                icon="🏫"
+                color="bg-green-50"
+              />
+              <SummaryCard
+                title="Active Projects"
+                value={summaryStats.activeProjects}
+                icon="📊"
+                color="bg-yellow-50"
+              />
+            </div>
+          )}
+          {!selectedProject && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {/* Your existing summary cards */}
+              </div>
 
+              {/* Circular Charts Row */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <h3 className="text-lg font-outfit font-medium mb-4 text-gray-800">
+                    Project Completion Rate
+                  </h3>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: "Completed", value: 75, fill: "#8b5cf6" },
+                            { name: "Remaining", value: 25, fill: "#e5e7eb" },
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          dataKey="value"
+                        >
+                          <Label
+                            value="75%"
+                            position="center"
+                            fill="#1f2937"
+                            style={{
+                              fontSize: "24px",
+                              fontWeight: "bold",
+                              fontFamily: "Outfit",
+                            }}
+                          />
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <h3 className="text-lg font-outfit font-medium mb-4 text-gray-800">
+                    Budget Utilization
+                  </h3>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: "Used", value: 82, fill: "#10b981" },
+                            { name: "Available", value: 18, fill: "#e5e7eb" },
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          dataKey="value"
+                        >
+                          <Label
+                            value="82%"
+                            position="center"
+                            fill="#1f2937"
+                            style={{
+                              fontSize: "24px",
+                              fontWeight: "bold",
+                              fontFamily: "Outfit",
+                            }}
+                          />
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <h3 className="text-lg font-outfit font-medium mb-4 text-gray-800">
+                    School Implementation
+                  </h3>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={[
+                            { name: "Implemented", value: 68, fill: "#3b82f6" },
+                            { name: "Pending", value: 32, fill: "#e5e7eb" },
+                          ]}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          dataKey="value"
+                        >
+                          <Label
+                            value="68%"
+                            position="center"
+                            fill="#1f2937"
+                            style={{
+                              fontSize: "24px",
+                              fontWeight: "bold",
+                              fontFamily: "Outfit",
+                            }}
+                          />
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bar Chart */}
+              <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
+                <h3 className="text-lg font-outfit font-medium mb-4 text-gray-800">
+                  State-wise Progress
+                </h3>
+                <div className="h-96">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={[
+                        { state: "Maharashtra", progress: 85 },
+                        { state: "Gujarat", progress: 78 },
+                        { state: "Karnataka", progress: 92 },
+                        { state: "Tamil Nadu", progress: 88 },
+                        { state: "Rajasthan", progress: 72 },
+                        { state: "Madhya Pradesh", progress: 65 },
+                        { state: "Uttar Pradesh", progress: 70 },
+                        { state: "Bihar", progress: 60 },
+                      ]}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="state"
+                        tick={{ fontFamily: "Red Hat Display" }}
+                        interval={0}
+                        angle={-45}
+                        textAnchor="end"
+                        height={60}
+                      />
+                      <YAxis
+                        tick={{ fontFamily: "Red Hat Display" }}
+                        label={{
+                          value: "Progress (%)",
+                          angle: -90,
+                          position: "insideLeft",
+                          style: { fontFamily: "Red Hat Display" },
+                        }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          fontFamily: "Red Hat Display",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Bar
+                        dataKey="progress"
+                        fill="#8b5cf6"
+                        radius={[4, 4, 0, 0]}
+                      >
+                        <LabelList
+                          dataKey="progress"
+                          position="top"
+                          formatter={(value) => `${value}%`}
+                          style={{
+                            fontFamily: "Red Hat Display",
+                            fill: "#4b5563",
+                          }}
+                        />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </>
+          )}
           {selectedProject && (
             <div className="bg-white rounded-xl shadow-sm p-6">
               {renderSelect({
