@@ -11,20 +11,13 @@ module.exports = {
         'redhat': ['Red Hat Display', 'serif']
       },
       colors: {
-        // Background colors
-        page: {
-          light: '#f9fafb',  // light gray for light mode
-          dark: '#1f2937',   // dark gray for dark mode
-        },
-        sidebar: {
-          light: '#ffffff',  // white for light mode
-          dark: '#111827',   // darker gray for dark mode
-        },
-        card: {
-          light: '#ffffff',  // white for light mode
-          dark: '#374151',   // medium gray for dark mode
-        },
+        primary: 'var(--color-primary)',
+        background: 'var(--color-background)',
+        surface: 'var(--color-surface)',
+        'text-primary': 'var(--color-text)',
+        'text-secondary': 'var(--color-text-secondary)',
       },
+
     },
   },
   plugins: [],

@@ -70,39 +70,41 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Comprehensive password validation
     if (!validatePasswords(formData.password, formData.confirmPassword)) {
       return;
     }
-  
+
     // API Call to the backend register endpoint
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          full_name: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-  
+      const response = await fetch(
+        "https://de76-2405-204-3303-cef4-34da-1b17-cf09-4170.ngrok-free.app/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            full_name: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
         alert(`Registration failed: ${errorData.detail}`);
         return;
       }
-  
+
       alert("Registration successful! Please login.");
       navigate("/login");
     } catch (error) {
       alert("An error occurred while registering. Please try again.");
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 perspective-900">
