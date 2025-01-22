@@ -38,16 +38,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 perspective-900">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 transform rotate-y-3 hover:rotate-y-0 transition-transform duration-500 relative">
-        {/* Pseudo-elements for 3D edges - handled by nested divs for React */}
-        <div className="absolute inset-0 rounded-3xl transform -rotate-y-6 -z-10 opacity-20" />
-        <div className="absolute inset-0 rounded-3xl transform -rotate-y-3 -z-20 opacity-10" />
-
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8  relative">
         {/* Header */}
-        <div className="text-center mb-8 transform hover:translate-z-4 transition-transform">
+        <div className="text-center mb-8 ">
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform shadow-lg">
+            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center  shadow-lg">
               <GlobeAltIcon className="w-6 h-6 text-purple-600" />
             </div>
           </div>
@@ -57,37 +53,6 @@ const LoginPage = () => {
           <p className="text-sm text-gray-600 mt-1">
             Please enter your details to sign in
           </p>
-        </div>
-
-        {/* OAuth Buttons */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img
-              src="https://www.google.com/favicon.ico"
-              alt="Google"
-              className="w-5 h-5"
-            />
-          </button>
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img
-              src="https://www.apple.com/favicon.ico"
-              alt="Apple"
-              className="w-5 h-5"
-            />
-          </button>
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img
-              src="https://www.facebook.com/favicon.ico"
-              alt="Facebook"
-              className="w-5 h-5"
-            />
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3 mb-8">
-          <div className="flex-1 border-t border-gray-200"></div>
-          <span className="text-sm text-gray-500 font-medium">or</span>
-          <div className="flex-1 border-t border-gray-200"></div>
         </div>
 
         {/* Login Form */}
