@@ -24,14 +24,60 @@ const Dashboard = () => {
   const [selectedSchool, setSelectedSchool] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+   // New states for Add Data form
+   const [showAddDataForm, setShowAddDataForm] = useState(false);
+   const [formDate, setFormDate] = useState("");
+   const [formDeviceCategory, setFormDeviceCategory] = useState("");
+   const [formStatus, setFormStatus] = useState("");
+   const [formSerialId, setFormSerialId] = useState("");
+   const [formPhoto, setFormPhoto] = useState(null);
+
   // State for sidebar toggle on mobile
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
 
+  const handleAddDataSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("date", formDate);
+    formData.append("device_category", formDeviceCategory);
+    formData.append("status", formStatus);
+    formData.append("serial_id", formSerialId);
+    if (formPhoto) {
+      formData.append("photo", formPhoto);
+    }
+
+    try {
+      const response = await fetch("http://localhost:8000/digital-procurements/", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit data");
+      }
+      const data = await response.json();
+      console.log("Data submitted:", data);
+      // Reset form fields
+      setFormDate("");
+      setFormDeviceCategory("");
+      setFormStatus("");
+      setFormSerialId("");
+      setFormPhoto(null);
+      setShowAddDataForm(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  const handlePhotoChange = (e) => {
+    setFormPhoto(e.target.files[0]);
+  };
+
   // Dummy user profile
   const user = {
-    name: "John Doe",
+    name: "Arun Kumar",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmnWamWQaGg46q1S3u0uMMgK3SZDBh1nBk-Q&s",
   };
@@ -624,3 +670,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+
