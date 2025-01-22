@@ -16,27 +16,69 @@ const RegisterPage = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
   const navigate = useNavigate();
+
+  const validatePasswords = (password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords don't match");
+      setIsPasswordValid(false);
+      return false;
+    }
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long");
+      setIsPasswordValid(false);
+      return false;
+    }
+    if (!/\d/.test(password)) {
+      setPasswordError("Password must contain at least one number");
+      setIsPasswordValid(false);
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setPasswordError("Password must contain at least one uppercase letter");
+      setIsPasswordValid(false);
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      setPasswordError("Password must contain at least one lowercase letter");
+      setIsPasswordValid(false);
+      return false;
+    }
+    setPasswordError("");
+    setIsPasswordValid(true);
+    return true;
+  };
 
   const handleInputChange = (e) => {
     const { name, value, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    const newFormData = {
+      ...formData,
       [name]: name === "agreeToTerms" ? checked : value,
-    }));
+    };
+    setFormData(newFormData);
+
+    // Validate passwords on change
+    if (name === "password" || name === "confirmPassword") {
+      validatePasswords(
+        name === "password" ? value : formData.password,
+        name === "confirmPassword" ? value : formData.confirmPassword
+      );
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+
+    // Comprehensive password validation
+    if (!validatePasswords(formData.password, formData.confirmPassword)) {
       return;
     }
 
     // Here you would typically make an API call to register the user
     // For now, we'll just simulate success and redirect to login
+    alert("Registration successful! Please login.");
     navigate("/login");
   };
 
@@ -62,29 +104,13 @@ const RegisterPage = () => {
           </p>
         </div>
 
-        {/* OAuth Buttons */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
-          </button>
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img src="https://www.apple.com/favicon.ico" alt="Apple" className="w-5 h-5" />
-          </button>
-          <button className="flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-            <img src="https://www.facebook.com/favicon.ico" alt="Facebook" className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3 mb-8">
-          <div className="flex-1 border-t border-gray-200"></div>
-          <span className="text-sm text-gray-500 font-medium">or</span>
-          <div className="flex-1 border-t border-gray-200"></div>
-        </div>
-
         {/* Registration Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="transform hover:translate-z-2 transition-transform">
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Full Name
             </label>
             <input
@@ -100,7 +126,10 @@ const RegisterPage = () => {
           </div>
 
           <div className="transform hover:translate-z-2 transition-transform">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Email address
             </label>
             <input
@@ -116,7 +145,10 @@ const RegisterPage = () => {
           </div>
 
           <div className="transform hover:translate-z-2 transition-transform">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Password
             </label>
             <div className="relative">
@@ -145,7 +177,10 @@ const RegisterPage = () => {
           </div>
 
           <div className="transform hover:translate-z-2 transition-transform">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Confirm Password
             </label>
             <div className="relative">
@@ -171,6 +206,42 @@ const RegisterPage = () => {
                 )}
               </button>
             </div>
+            {passwordError && (
+              <p className="mt-2 text-sm text-red-600">{passwordError}</p>
+            )}
+          </div>
+
+          {/* Password Requirements */}
+          <div className="text-sm text-gray-600 space-y-1">
+            <p>Password must contain:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li
+                className={
+                  formData.password.length >= 8 ? "text-green-600" : ""
+                }
+              >
+                At least 8 characters
+              </li>
+              <li
+                className={
+                  /[A-Z]/.test(formData.password) ? "text-green-600" : ""
+                }
+              >
+                One uppercase letter
+              </li>
+              <li
+                className={
+                  /[a-z]/.test(formData.password) ? "text-green-600" : ""
+                }
+              >
+                One lowercase letter
+              </li>
+              <li
+                className={/\d/.test(formData.password) ? "text-green-600" : ""}
+              >
+                One number
+              </li>
+            </ul>
           </div>
 
           <div className="flex items-center">
@@ -183,7 +254,10 @@ const RegisterPage = () => {
               className="h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
               required
             />
-            <label htmlFor="agreeToTerms" className="ml-2 text-sm text-gray-600">
+            <label
+              htmlFor="agreeToTerms"
+              className="ml-2 text-sm text-gray-600"
+            >
               I agree to the Terms of Service and Privacy Policy
             </label>
           </div>
@@ -199,7 +273,7 @@ const RegisterPage = () => {
         {/* Sign In Link */}
         <p className="mt-8 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <button 
+          <button
             onClick={() => navigate("/login")}
             className="text-purple-600 hover:text-purple-500 font-medium"
           >
