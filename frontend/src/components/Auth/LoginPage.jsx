@@ -12,6 +12,7 @@ const LoginPage = () => {
     password: "",
     rememberMe: false,
   });
+  const [error, setError] = useState(""); // Add this line to manage error state
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -23,19 +24,35 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simulate authentication (replace with real authentication logic)
-    if (
-      formData.email === "test@example.com" &&
-      formData.password === "password"
-    ) {
-      navigate("/dashboard"); // Redirect to Dashboard on successful login
-    } else {
-      alert("Invalid credentials");
+  
+    // API Call to the backend login endpoint
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.detail);
+        return;
+      }
+  
+      alert("Login successful!");
+      navigate("/dashboard"); // Redirect to dashboard
+    } catch (error) {
+      alert("An error occurred while logging in. Please try again.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">

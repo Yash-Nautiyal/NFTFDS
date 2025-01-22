@@ -68,19 +68,41 @@ const RegisterPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Comprehensive password validation
     if (!validatePasswords(formData.password, formData.confirmPassword)) {
       return;
     }
-
-    // Here you would typically make an API call to register the user
-    // For now, we'll just simulate success and redirect to login
-    alert("Registration successful! Please login.");
-    navigate("/login");
+  
+    // API Call to the backend register endpoint
+    try {
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Registration failed: ${errorData.detail}`);
+        return;
+      }
+  
+      alert("Registration successful! Please login.");
+      navigate("/login");
+    } catch (error) {
+      alert("An error occurred while registering. Please try again.");
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 perspective-900">
