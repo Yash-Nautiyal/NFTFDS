@@ -79,7 +79,7 @@ const RegisterPage = () => {
     // API Call to the backend register endpoint
     try {
       const response = await fetch(
-        "https://de76-2405-204-3303-cef4-34da-1b17-cf09-4170.ngrok-free.app/auth/register",
+        "https://f72e-106-219-232-23.ngrok-free.app/auth/register",
         {
           method: "POST",
           headers: {

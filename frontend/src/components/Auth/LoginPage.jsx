@@ -30,7 +30,7 @@ const LoginPage = () => {
     // API Call to the backend login endpoint
     try {
       const response = await fetch(
-        "https://de76-2405-204-3303-cef4-34da-1b17-cf09-4170.ngrok-free.app/auth/login",
+        "https://f72e-106-219-232-23.ngrok-free.app/auth/login",
         {
           method: "POST",
           headers: {

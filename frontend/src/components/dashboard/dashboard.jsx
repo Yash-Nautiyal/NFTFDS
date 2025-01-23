@@ -166,6 +166,7 @@ const Dashboard = () => {
           ) : (
             <div className="mt-4 md:mt-0">
               <SelectionForm
+                selectedProject={selectedProject} // Make sure this is passed
                 selectedState={selectedState}
                 selectedDistrict={selectedDistrict}
                 selectedSchool={selectedSchool}

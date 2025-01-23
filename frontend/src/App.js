@@ -8,13 +8,12 @@ import Dashboard from './components/dashboard/dashboard';
 
 function App() {
   return (
-    <ThemeProvider>  {/* Add ThemeProvider here */}
+    <ThemeProvider> 
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+        
+          {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+          <Route path="/" element={<Dashboard />} />
         </Routes>
       </Router>
     </ThemeProvider>

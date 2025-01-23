@@ -1,4 +1,9 @@
+import React, { useState } from "react";
+import AddDataModal from "./AddDataModel";
+import DeviceProcurementTable from "./Table";
+
 const SelectionForm = ({
+  selectedProject,
   selectedState,
   selectedDistrict,
   selectedSchool,
@@ -12,6 +17,8 @@ const SelectionForm = ({
   onSchoolSelect,
   onCategorySelect,
 }) => {
+  const [showAddDataModal, setShowAddDataModal] = useState(false);
+
   const renderSelect = ({ label, value, options, onChange, placeholder }) => (
     <div className="mb-4">
       <label className="block text-sm font-medium text-[var(--color-text)] mb-1 font-outfit">
@@ -36,8 +43,25 @@ const SelectionForm = ({
       </select>
     </div>
   );
+
   return (
     <div className="bg-[var(--color-surface)] rounded-xl shadow-sm p-6 theme-transition">
+      {/* Add Data button for Digital Device Procurement */}
+      {selectedProject?.name === "Digital Device Procurement" && (
+        <div className="mb-6">
+          <button
+            onClick={() => setShowAddDataModal(true)}
+            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg 
+                     hover:bg-[var(--color-primary-dark)] transition-colors font-redhat
+                     flex items-center space-x-2"
+          >
+            <span className="text-lg">+</span>
+            <span>Add Data</span>
+          </button>
+        </div>
+      )}
+
+      {/* Selection Dropdowns */}
       {renderSelect({
         label: "Select State",
         value: selectedState,
@@ -45,6 +69,7 @@ const SelectionForm = ({
         onChange: onStateSelect,
         placeholder: "Choose a state",
       })}
+
       {selectedState &&
         renderSelect({
           label: "Select District",
@@ -53,6 +78,7 @@ const SelectionForm = ({
           onChange: onDistrictSelect,
           placeholder: "Choose a district",
         })}
+
       {selectedDistrict &&
         renderSelect({
           label: "Select School",
@@ -61,6 +87,7 @@ const SelectionForm = ({
           onChange: onSchoolSelect,
           placeholder: "Choose a school",
         })}
+
       {selectedSchool &&
         renderSelect({
           label: "Select Category",
@@ -69,6 +96,26 @@ const SelectionForm = ({
           onChange: onCategorySelect,
           placeholder: "Choose a category",
         })}
+
+      {/* Device Procurement Table */}
+      {selectedProject?.name === "Digital Device Procurement" &&
+        selectedCategory && (
+          <DeviceProcurementTable
+            selectedState={selectedState}
+            selectedDistrict={selectedDistrict}
+            selectedSchool={selectedSchool}
+            selectedCategory={selectedCategory}
+          />
+        )}
+
+      {/* Add Data Modal */}
+      {showAddDataModal && (
+        <AddDataModal
+          isOpen={showAddDataModal}
+          onClose={() => setShowAddDataModal(false)}
+          className="theme-transition"
+        />
+      )}
     </div>
   );
 };
