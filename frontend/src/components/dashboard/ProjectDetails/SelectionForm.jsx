@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import AddDataModal from "./AddDataModel";
 import DeviceProcurementTable from "./Table";
+import TrainingForm from "./forms/training-form";
+import DeviceForm from "./forms/device-form";
 
 const SelectionForm = ({
   selectedProject,
@@ -46,21 +48,23 @@ const SelectionForm = ({
 
   return (
     <div className="bg-[var(--color-surface)] rounded-xl shadow-sm p-6 theme-transition">
-      {/* Add Data button for Digital Device Procurement */}
-      {selectedProject?.name === "Digital Device Procurement" && (
+      {selectedProject?.name ==
+        "Residential Training Project for EMRS Teachers" ||
+      selectedProject?.name == "Digital Device Procurement" ? (
         <div className="mb-6">
           <button
             onClick={() => setShowAddDataModal(true)}
             className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg 
-                     hover:bg-[var(--color-primary-dark)] transition-colors font-redhat
+                     transition-colors font-redhat
                      flex items-center space-x-2"
           >
             <span className="text-lg">+</span>
             <span>Add Data</span>
           </button>
         </div>
+      ) : (
+        <></>
       )}
-
       {/* Selection Dropdowns */}
       {renderSelect({
         label: "Select State",
@@ -69,7 +73,6 @@ const SelectionForm = ({
         onChange: onStateSelect,
         placeholder: "Choose a state",
       })}
-
       {selectedState &&
         renderSelect({
           label: "Select District",
@@ -78,7 +81,6 @@ const SelectionForm = ({
           onChange: onDistrictSelect,
           placeholder: "Choose a district",
         })}
-
       {selectedDistrict &&
         renderSelect({
           label: "Select School",
@@ -87,7 +89,6 @@ const SelectionForm = ({
           onChange: onSchoolSelect,
           placeholder: "Choose a school",
         })}
-
       {selectedSchool &&
         renderSelect({
           label: "Select Category",
@@ -96,9 +97,10 @@ const SelectionForm = ({
           onChange: onCategorySelect,
           placeholder: "Choose a category",
         })}
-
       {/* Device Procurement Table */}
-      {selectedProject?.name === "Digital Device Procurement" &&
+      {(selectedProject?.name === "Digital Device Procurement" ||
+        selectedProject?.name ==
+          "Residential Training Project for EMRS Teachers") &&
         selectedCategory && (
           <DeviceProcurementTable
             selectedState={selectedState}
@@ -107,13 +109,19 @@ const SelectionForm = ({
             selectedCategory={selectedCategory}
           />
         )}
-
       {/* Add Data Modal */}
-      {showAddDataModal && (
-        <AddDataModal
+      {selectedProject?.name ===
+        "Residential Training Project for EMRS Teachers" && (
+        <TrainingForm
           isOpen={showAddDataModal}
           onClose={() => setShowAddDataModal(false)}
-          className="theme-transition"
+        />
+      )}
+
+      {selectedProject?.name === "Digital Device Procurement" && (
+        <DeviceForm
+          isOpen={showAddDataModal}
+          onClose={() => setShowAddDataModal(false)}
         />
       )}
     </div>

@@ -12,13 +12,13 @@ const Dashboard = () => {
   const [selectedSchool, setSelectedSchool] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-   // New states for Add Data form
-   const [showAddDataForm, setShowAddDataForm] = useState(false);
-   const [formDate, setFormDate] = useState("");
-   const [formDeviceCategory, setFormDeviceCategory] = useState("");
-   const [formStatus, setFormStatus] = useState("");
-   const [formSerialId, setFormSerialId] = useState("");
-   const [formPhoto, setFormPhoto] = useState(null);
+  // New states for Add Data form
+  const [showAddDataForm, setShowAddDataForm] = useState(false);
+  const [formDate, setFormDate] = useState("");
+  const [formDeviceCategory, setFormDeviceCategory] = useState("");
+  const [formStatus, setFormStatus] = useState("");
+  const [formSerialId, setFormSerialId] = useState("");
+  const [formPhoto, setFormPhoto] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -35,10 +35,13 @@ const Dashboard = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/digital-procurements/", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost:8000/digital-procurements/",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit data");
@@ -205,6 +208,7 @@ const Dashboard = () => {
               <div className="mb-4 md:mb-6">
                 <SummaryCards stats={summaryStats} />
               </div>
+              <div></div>
               <div className="mb-4 md:mb-6">
                 <ChartSection />
               </div>
@@ -235,7 +239,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-

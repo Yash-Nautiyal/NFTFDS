@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddDataModal = ({ isOpen, onClose }) => {
+const DeviceForm = ({ isOpen, onClose }) => {
   const [formDate, setFormDate] = useState("");
   const [formDeviceCategory, setFormDeviceCategory] = useState("");
   const [formStatus, setFormStatus] = useState("");
@@ -137,4 +137,4 @@ const AddDataModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddDataModal;
+export default DeviceForm;
